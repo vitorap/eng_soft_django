@@ -1,0 +1,8 @@
+<div>
+  <h3> {{ objeto.nome|capfirst}}</h3>
+  <p>Tipo: {{objeto.tipo}}</p>
+  <p>Descrição: {{objeto.descrição}}</p>
+  <a href="{% url 'usuario_detail' objeto.usuario_dono.id %}">
+      <p>Submetido por: {{objeto.usuario_dono}}</p>
+  </a>
+</div>

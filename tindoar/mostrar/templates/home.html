@@ -1,0 +1,10 @@
+<div>
+  {% for objeto in objetos %}
+  <div class="nomeobjeto">
+    <a href="{% url 'objeto_detail' objeto.id %}">
+    <h3> {{ objeto.nome|capfirst}}</h3>
+    </a>
+    <p>Tipo: {{objeto.tipo}}</p>
+  </div>
+  {% endfor %}
+</div>
