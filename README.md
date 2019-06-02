@@ -2,7 +2,7 @@
 **Projeto** Tindoar
 **Responsável da Monitora**: André
 
-## Quadro SCRUM :notebook: :check:
+## Quadro SCRUM :notebook: 
 https://bitlybr.com/xBs0V
 
 ### SCRUM MASTER:
