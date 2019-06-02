@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 #chave primaria é criada por padrao no django, entao nao precisa especificar aqui
 
 class Usuario(models.Model):
@@ -16,7 +16,7 @@ class Objeto(models.Model):
     tipo = models.CharField(choices=TIPO_CHOICES,max_length=1)
     nome = models.CharField(max_length=100)
     descrição = models.TextField()
-    usuario_dono = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario_dono = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nome

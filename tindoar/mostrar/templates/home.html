@@ -1,10 +1,24 @@
 <div>
-  {% for objeto in objetos %}
-  <div class="nomeobjeto">
-    <a href="{% url 'objeto_detail' objeto.id %}">
-    <h3> {{ objeto.nome|capfirst}}</h3>
-    </a>
-    <p>Tipo: {{objeto.tipo}}</p>
-  </div>
-  {% endfor %}
+	{% if user.is_authenticated %}
+		{{ request.user }} | <a href="/criar_item">
+		<button type="button">Criar Item</button></a>
+		<a href="/meus_itens">
+		<button type="button">Meus Item</button></a>
+		<a href="#" onClick="document.getElementById('logoutform').submit()">
+		<button type="button">Logout</button></a>
+		<form id="logoutform" method="POST" action="{% url 'logout' %}">
+			{% csrf_token %}
+			<input type="hidden">
+		</form>
+	  {% for objeto in objetos %}
+	  <div class="nomeobjeto">
+	    <a href="{% url 'objeto_detail' objeto.id %}">
+	    <h3> {{ objeto.nome|capfirst}}</h3>
+	    </a>
+	    <p>Tipo: {{objeto.tipo}}</p>
+	  </div>
+	  {% endfor %}
+	  {% else %}
+	  <p>você não está logado</p>
+	  {% endif %}
 </div>

@@ -25,8 +25,9 @@ SECRET_KEY = 'm3bz_h#!3iop8iu@!l_l4h3bsqg6u6aan7=(*e-)n6b7=))iu2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1:8000','127.0.0.1','.pythonanywhere.com']
 
+CRISPY_TEMPLATE_PACK =  'bootstrap4'
 
 # Application definition
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mostrar',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tindoar.wsgi.application'
-
+LOGIN_REDIRECT_URL =  '/home'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -119,3 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+STATIC_ROOT = os.path.join(BASE_DIR, '../static')
+
+STATICFILES_FINDERS = (
+'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+'django.contrib.staticfiles.finders.FileSystemFinder',
+)
