@@ -1,0 +1,46 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>Sign up forms</title>
+<!--
+<link rel="stylesheet" href="{% static 'css/StyleSignUp.css' %}">
+-->
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+<style>
+
+@import url('https://fonts.googleapis.com/css?family=Lobster|Pacifico');
+</style>
+</head>
+<body>
+    <section class="intro">
+        <div class="inner">
+            <div class="content">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                      <p>
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        {% for error in field.errors %}
+                          <p style="color: red">{{ error }}</p>
+                        {% endfor %}
+                      </p>
+                    {% endfor %}
+                    <button type="submit">Sign up</button>
+                </form>
+            </div>
+        </div>
+        
+    </section>
+</body>
+</html>

@@ -7,13 +7,9 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+
 from .forms import SignUpForm, ItemForm
 from .models import Objeto
-from .models import Usuario
-
-'''
-Objeto -> tipo, nome, descrição, usuario_dono
-'''
 
 
 def item_new(request):
@@ -28,41 +24,34 @@ def item_new(request):
          form = ItemForm()
      return render(request, 'item_new.html', {'form': form})
 
-#modificar
-def item_edit(request, pk):
-     objeto = get_object_or_404(Objeto, pk=pk)
-     if request.method == "POST":
-         form = ItemForm(request.POST, instance=objeto)
-         if form.is_valid():
-             objeto = form.save(commit=False)
-             objeto.usuario_dono = request.user
-             objeto.save()
-             return redirect('bemvindo')
-     else:
-         form = ItemForm(instance=objeto)
-     return render(request, 'item_edit.html',{'form': form})
+def meu_profile(request):
+    return None
 
-'''
+def ver_perdido(request):
+    return None
+
+#modifica o item somente caso o usuario seja o criador do item
 def item_edit(request, pk):
      objeto = get_object_or_404(Objeto, pk=pk)
      if request.user == objeto.usuario_dono:
-        if request.method == "POST":
-             form = ItemForm(request.POST)
+         if request.method == "POST":
+             form = ItemForm(request.POST, instance=objeto)
              if form.is_valid():
                  objeto = form.save(commit=False)
                  objeto.usuario_dono = request.user
                  objeto.save()
                  return redirect('bemvindo')
-             else:
-                 form = ItemForm(instance=objeto)
-        return render(request, 'item_new.html',{'form': form})
-     else:
-        redirect(objeto_detail, {'pk': pk})
+         else:
+             form = ItemForm(instance=objeto)
+         return render(request, 'item_new.html',{'form': form})
 
-'''
+def item_delete(request, pk):
+    item = get_object_or_404(Objeto, pk=pk)
+    if request.user == item.usuario_dono:
+        item.delete()
+    return redirect('meus_itens')
 
-
-def meusitens(request):
+def meus_itens(request):
     itens = Objeto.objects.filter(usuario_dono = request.user)
     return render(request, 'home.html', {'objetos': itens})
 
@@ -74,7 +63,7 @@ def pagelogout(request):
 
 def bemvindo(request):
     if request.user.is_authenticated:
-        objetos = Objeto.objects.all()
+        objetos = Objeto.objects.filter().exclude(usuario_dono = request.user)
         return render(request, 'home.html', {'objetos': objetos})
     else:
         return render(request,"bemvindo.html")
@@ -95,7 +84,7 @@ def signup(request):
 
 
 def home(request):
-    objetos = Objeto.objects.all()
+    objetos = Objeto.objects.filter().exclude(usuario_dono = request.user)
     return render(request, 'home.html', {'objetos': objetos})
 
 def objeto_detail(request, pk):

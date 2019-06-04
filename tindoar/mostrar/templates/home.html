@@ -1,24 +1,122 @@
-<div>
-	{% if user.is_authenticated %}
-		{{ request.user }} | <a href="/criar_item">
-		<button type="button">Criar Item</button></a>
-		<a href="/meus_itens">
-		<button type="button">Meus Item</button></a>
-		<a href="#" onClick="document.getElementById('logoutform').submit()">
-		<button type="button">Logout</button></a>
-		<form id="logoutform" method="POST" action="{% url 'logout' %}">
-			{% csrf_token %}
-			<input type="hidden">
-		</form>
-	  {% for objeto in objetos %}
-	  <div class="nomeobjeto">
-	    <a href="{% url 'objeto_detail' objeto.id %}">
-	    <h3> {{ objeto.nome|capfirst}}</h3>
-	    </a>
-	    <p>Tipo: {{objeto.tipo}}</p>
-	  </div>
-	  {% endfor %}
-	  {% else %}
-	  <p>você não está logado</p>
-	  {% endif %}
-</div>
+<!DOCTYPE html>
+<html class='no-js' >
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+
+		<!--==================================================================
+			Your Title
+		==================================================================-->
+		<title>Tindoar</title>
+
+
+		<!--==================================================================
+			CSS Stylesheets
+		==================================================================-->
+		<link rel='stylesheet' type='text/css' href='static/bootstrap/css/bootstrap.min.css' >
+		<link rel='stylesheet' type='text/css' href='static/css/ionicons.min.css' >
+		<link rel='stylesheet' type='text/css' href='static/css/owl.carousel.css' >
+		<link rel='stylesheet' type='text/css' href='static/css/magnific-popup.css' >
+		<link rel='stylesheet' type='text/css' href='static/css/style.css' >
+
+	</head>
+	<body>
+
+		<!--page-borders-->
+		<div class='page-borders' >
+			<div class='left' ></div>
+			<div class='right' ></div>
+		</div>
+
+		<!--menu-btn-->
+		<a class='menu-btn' >
+			<span class='lines' >
+				<span class='l1' ></span>
+				<span class='l2' ></span>
+				<span class='l3' ></span>
+			</span>
+		</a>
+
+
+		<!--menu-->
+		<nav class='menu' >
+			<ul>
+				<li><a href='#features' >	Features</a></li>
+				<li><a href='/home'>Home</a></li>
+				<li>{{ request.user }} | <a href="/criar_item">Criar Item</a></li>
+				<li><a href="/meus_itens">Meus Itens</a></li>
+				<li><a href="#" onClick="document.getElementById('logoutform').submit()">Logout</a>
+					<form id="logoutform" method="POST" action="{% url 'logout' %}">
+						{% csrf_token %}
+						<input type="hidden">
+					</form>
+				</li>
+			</ul>
+		</nav>
+
+
+
+
+
+
+			<!--==================================================================
+				Features Section -- 1
+			==================================================================-->
+			<section id='features' class='section features-section' >
+				<div class='container' >
+					<div class='row' >
+						<div class='col-md-8 col-md-offset-2' >
+							<div class='features-text' >
+								<h2>Items disponiveis!!</h2>
+								<p>
+									Veja algumas opções para doação
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class='row features-row' >
+						{% for objeto in objetos %}
+									<div class='col-md-4 col-sm-6' >
+										<div class='feature' >
+											<div class='content' >
+												<a href="{% url 'objeto_detail' objeto.id %}">
+													<h4> {{ objeto.nome|capfirst}}</h4>
+												</a>
+												<p>Tipo: {{objeto.tipo}}</p>
+												<p>Tipo: {{objeto.descrição}}</p>
+											</div>
+										</div>
+									</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+
+
+			<!--==================================================================
+				Footer
+			==================================================================-->
+			<footer>
+				<div class='container text-center' >
+					<p>Copyright Tindoar &copy; 2019.</p>
+				</div>
+			</footer>
+
+		</div>
+
+
+		<!--==================================================================
+			JavaScript Files
+		==================================================================-->
+		<script src='static/js/jquery.min.js' ></script>
+		<script src='static/js/jquery.fitvids.js' ></script>
+		<script src='static/js/owl.carousel.min.js' ></script>
+		<script src='static/js/jquery.magnific-popup.min.js' ></script>
+		<script src='static/js/validator.min.js' ></script>
+		<script src='static/js/script.js' ></script>
+
+	</body>
+</html>

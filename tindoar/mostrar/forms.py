@@ -18,4 +18,4 @@ class ItemForm(forms.ModelForm):
 
     class Meta:
         model = Objeto
-        fields = ('nome', 'descrição','tipo')
+        fields = ('nome', 'descrição',)

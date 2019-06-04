@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Lobster|Pacifico');
+</style>
+
+
+
+<title>Bem vindo ao tindoar</title>
+
+<link rel="stylesheet" href="{% static 'css/bemvindo.css' %}">
+
+</head>
+<body>
+    <section class="intro">
+        <div class="inner">
+            <div class="content">
+                    <section class="um">
+                        <a href="" class="texto" >Bem vindo ao Tindoar!</a>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <a href="/login" class="link" >Quem somos</a>
+                        <br>
+                        <a href="/login" class="link" >Log in</a>
+                        a<a href="{% url 'signup' %}" class="link" >Sign up</a>
+                    </section>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>

@@ -1,32 +1,51 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<!-- Tela de criar conta de teste por baidu -->
+<html lang="pt-br">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-<title>Sign up forms</title>
-<!--
-<link rel="stylesheet" href="{% static 'css/StyleSignUp.css' %}">
--->
-<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
-
-<style>
-
-@import url('https://fonts.googleapis.com/css?family=Lobster|Pacifico');
-</style>
+	<title>Tindoar - Criar conta</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'loginscreen/images/icons/favicon.ico' %} "/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href='{% static 'loginscreen/vendor/bootstrap/css/bootstrap.min.css' %} '>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %} ">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/iconic/css/material-design-iconic-font.min.css' %} ">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animate/animate.css' %} ">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+<!--===============================================================================================-->
 </head>
 <body>
-    <section class="intro">
-        <div class="inner">
-            <div class="content">
-                <form method="post">
-                    {% csrf_token %}
+
+	
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form method = "post" class="login100-form validate-form">
+					<span class="login100-form-title p-b-26">
+						Crie sua conta no Tindoar
+					</span>
+					<center><img src="{% static 'loginscreen/images/tindoarlogoS.png' %}""></center>
+					<br>
+					<br>
+					
+					{% csrf_token %}
                     {% for field in form %}
                       <p>
                         {{ field.label_tag }}<br>
@@ -36,11 +55,52 @@
                         {% endfor %}
                       </p>
                     {% endfor %}
-                    <button type="submit">Sign up</button>
-                </form>
-            </div>
-        </div>
-        
-    </section>
+				                   
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" type="submit">
+								Criar Conta
+							</button>
+						</div>
+					</div>
+
+					<div class="text-center p-t-115">
+						<span class="txt1">
+							Já tem uma conta?
+						</span>
+
+						<a class="txt2" href="{% url 'login' %}">
+							Fazer Login
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="{% static 'loginscreen/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginscreen//vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src= "{% static 'loginscreen/vendor/bootstrap/js/popper.js' %}"> </script>
+
+	<script src="{% static 'loginscreen/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginscreen/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginscreen/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginscreen/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'loginscreen/js/main.js' %}"></script>
+
+
+
 </body>
 </html>

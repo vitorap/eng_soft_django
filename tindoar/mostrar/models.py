@@ -16,15 +16,15 @@ class Objeto(models.Model):
     tipo = models.CharField(choices=TIPO_CHOICES,max_length=1)
     nome = models.CharField(max_length=100)
     descrição = models.TextField()
-    usuario_dono = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario_dono = models.ForeignKey('auth.User', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nome
 
 class Pedido(models.Model):
     STATUS_CHOICES = [('E','Espera'),('R','Recusado'),('A','Aprovado')]
-    usuario_interessado = models.ForeignKey(Usuario, on_delete=models.CASCADE,  related_name='interessado')
-    usuario_dono = models.ForeignKey(Usuario, on_delete=models.CASCADE,  related_name='dono')
+    usuario_interessado = models.ForeignKey(User, on_delete=models.CASCADE,  related_name='interessado')
+    usuario_dono = models.ForeignKey(User, on_delete=models.CASCADE,  related_name='dono')
     data_requisito = models.DateTimeField()
     status = models.CharField(choices=STATUS_CHOICES,max_length=1)
     objeto_solicitado = models.ForeignKey(Objeto, on_delete=models.CASCADE)
