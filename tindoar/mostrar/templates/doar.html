@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{% static 'imagens/favicon.ico' %} " />
+
+  <title>Tindoar - Fazer Doação</title>
+   <!-- Bootstrap core CSS -->
+  <link href="{% static 'pagina_itens/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'pagina_itens/css/shop-homepage.css"' %} rel="stylesheet">
+  
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %} ">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/iconic/css/material-design-iconic-font.min.css' %} ">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animate/animate.css' %} ">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <img src="{% static 'imagens/small.png' %}">
+
+
+      <a class="navbar-brand" href="/home">⠀Tindoar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Doações
+              
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sobre">Sobre nós</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#"><b></b></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
+          </li>
+
+          <li class="nav-item active">
+            <a class="nav-link" href="/criar_item">Doar
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/meus_itens">Meus ítens</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="ver_seus_pedidos">Meus Pedidos</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Solicitações</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Minha Conta</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
+            <form id="logoutform" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden">
+          </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Page Content -->
+  <center>
+    <div class="container">
+      <br><br><br>
+
+        <div class="wrap-login100">
+          <form method = "POST" class="login100-form validate-form" enctype="multipart/form-data">
+            <span class="login100-form-title p-b-26">
+              Fazer Doação
+            </span>
+            <center><h5>Cadastre seu Ítem:<br><br></h5></center>
+             
+              {% csrf_token %}
+              {{ form.as_p }}  
+             
+            <div class="container-login100-form-btn">
+              <div class="wrap-login100-form-btn">
+                <div class="login100-form-bgbtn"></div>
+                <button class="login100-form-btn" type="submit">
+                  Doar!
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+   
+    </div>
+  </center>
+
+    <br>
+
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+     <p class="m-0 text-center text-white">Copyright &copy; Tindoar 2019 - Um projeto da disciplina Engenharia de Software - Universidade de São Paulo</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'pagina_itens/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'pagina_itens/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'loginscreen/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'loginscreen//vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src= "{% static 'loginscreen/vendor/bootstrap/js/popper.js' %}"> </script>
+
+  <script src="{% static 'loginscreen/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'loginscreen/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'loginscreen/vendor/daterangepicker/moment.min.js' %}"></script>
+  <script src="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'loginscreen/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+  <script src="{% static 'loginscreen/js/main.js' %}"></script>
+
+</body>
+
+</html>

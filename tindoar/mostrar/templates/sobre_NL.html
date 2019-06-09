@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{% static 'imagens/favicon.ico' %} " />
+
+  <title>Tindoar - Sobre nós</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'pagina_itens/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'pagina_itens/css/shop-homepage.css"' %}">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <img src="{% static 'imagens/small.png' %}">
+
+
+      <a class="navbar-brand" href="/">⠀Tindoar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="/">Página inicial</a>
+          </li>
+                    
+
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Sobre nós</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#"><b></b></a>
+          </li>
+
+          <li class="nav-item disabled">
+            <a class="nav-link disabled">Você não está logado: </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Fazer Login</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Criar Conta</a>
+          </li>
+
+
+
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <center><h2 class="my-4">Sobre Nós:</h2></center>
+        
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+        <br>
+        <p align="justify">Somos um grupo de alunos da Universidade de São Paulo, Campus São Carlos, que desenvolveu este aplicativo como trabalho da disciplina Engenharia de Software, que visa exercitar e aprender os conceitos relacionados ao método de planejamento e desenvolvimento Ágil, utilizando a metodolocia Scrum. 
+        <br><center><b>Conheça os membros da nossa equipe:</b></center>
+        </p>
+
+        <style>
+        img {
+          float: left;
+        }
+        </style>        
+
+        <center>
+          <div class="card" ">
+            <div class="card-body">
+              <p><img src="{% static 'imagens/pessoas/afonso.png' %}"> <br><br><b>Afonso Celso</b><br>Desenvolvedor<br></p>
+              <br>
+              <br>
+              <p><img src="{% static 'imagens/pessoas/carlos.png' %}"> <br><br><b>Carlos Santos Jr</b><br>Desenvolvedor - Teste<br></p>
+              <br>
+              <br>
+              <p><img src="{% static 'imagens/pessoas/default.png' %}"> <br><br><b>Gustavo Okuda</b><br>Product Owner<br></p>
+              <br>
+              <br>
+              <p><img src="{% static 'imagens/pessoas/laura.png' %}"> <br><br><b>Laura Gouveia</b><br>Desenvolvedora - Backend<br></p>
+              <br>
+              <br>
+              <p><img src="{% static 'imagens/pessoas/vitor.png' %}"> <br><br><b>Vitor de Paula Jr</b><br>Scrum Master<br></p>
+              <br>
+              <br>
+              <p><img src="{% static 'imagens/pessoas/default.png' %}"> <br><br><b>Mário</b><br>Desenvolvedor<br></p>
+              <br>
+              <br>
+              <p><img src="{% static 'imagens/pessoas/mateus.png' %}"> <br><br><b>Mateus Medeiros</b><br>Desenvolvedor - Frontend<br></p>
+              <br>
+            </div>
+        </div>
+        <br>
+        </center>
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Tindoar 2019 - Um projeto da disciplina Engenharia de Software - Universidade de São Paulo</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'pagina_itens/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'pagina_itens/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+
+</html>

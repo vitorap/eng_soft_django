@@ -11,13 +11,18 @@ class Usuario(models.Model):
     def __str__(self):
         return self.nome
 
+def upload_location(instance, filename):
+    return "%s/%s" %(instance.id, filename)
+
 class Objeto(models.Model):
     TIPO_CHOICES = [('L','Livros'),('B','Brinquedos'),('R','Roupas'),('O','Outros')]
-    tipo = models.CharField(choices=TIPO_CHOICES,max_length=1)
+    tipo = models.CharField(choices=TIPO_CHOICES,max_length=2, default='O')
     nome = models.CharField(max_length=100)
-    descrição = models.TextField()
+    descrição = models.TextField(max_length=500)
     usuario_dono = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-
+    imagem = models.ImageField(upload_to= upload_location, null=True, blank=True, width_field="largura_img", height_field="altura_img")
+    altura_img = models.IntegerField(default=0)
+    largura_img = models.IntegerField(default=0)
     def __str__(self):
         return self.nome
 

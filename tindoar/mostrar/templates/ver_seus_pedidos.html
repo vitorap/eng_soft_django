@@ -1,0 +1,11 @@
+{% for pedido in pedidos %}
+	<p>{{pedido.usuario_interessado}}</p>
+	<p>{{pedido.usuario_dono}}</p>
+	<p>{{pedido.data_requisito}}</p>
+	<p>{{pedido.status}}</p>
+	<p>{{pedido.objeto_solicitado}}</p>
+	<a href="{% url 'ver_user' pedido.usuario_dono.pk %}" class="card-link">Ver Perfil Dono</a>
+	<br>
+{% endfor %}
+<a href="{% url 'edit_user' request.user.pk %}" class="card-link">Editar Perfil</a>
+<a href="{% url 'ver_user' request.user.pk %}" class="card-link">Ver seu Perfil</a>
