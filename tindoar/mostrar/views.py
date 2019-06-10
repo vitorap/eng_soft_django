@@ -11,6 +11,17 @@ from .forms import SignUpForm, ItemForm, ProfileForm
 from .models import Objeto
 from .models import Pedido
 
+def dic_categorias():
+    # ^^Esse dicionário serve para traduzir o display name de TIPO_CHOICES para o valor do banco de dados. 
+    # Deve sempre ficar atualizado com models.py para refletir as categorias existentes.
+    categorias_dict = {
+    'Brinquedos' : 'B',
+    'Livros' : 'L',
+    'Roupas' : 'R',
+    'Outros' : 'O',
+    }
+    return categorias_dict
+
 
 def fazer_pedido(request, pk):
     objeto = get_object_or_404(Objeto, pk=pk)
@@ -79,10 +90,14 @@ def item_edit(request, pk):
                  objeto = form.save(commit=False)
                  objeto.usuario_dono = request.user
                  objeto.save()
-                 return redirect('bemvindo')
+                 response = HttpResponse()
+                 response.write("<center><div class='alert alert-success' role='alert'>")
+                 response.write(" <div class='alert alert-success' role='alert'>")
+                 response.write(" <h3 class='alert-heading'> Sucesso! </h3><p> Informações Gravadas </p></div></center>")
+                 return response
          else:
              form = ItemForm(instance=objeto)
-         return render(request, 'item_new.html',{'form': form})
+         return render(request, 'item_edit.html',{'form': form})
 
 def item_delete(request, pk):
     item = get_object_or_404(Objeto, pk=pk)
@@ -91,9 +106,45 @@ def item_delete(request, pk):
     return redirect('meus_itens')
 
 def meus_itens(request):
-    itens = Objeto.objects.filter(usuario_dono = request.user)
-    categorias = Objeto.TIPO_CHOICES
-    return render(request, 'pagina_meus_itens.html', {'objetos': itens, 'categorias': categorias})
+
+    objetos = Objeto.objects.filter(usuario_dono = request.user)
+    categorias = []
+    for objeto in objetos:
+        categorias.append(objeto.get_tipo_display()) #populando categorias dos objetos existentes na database
+    categorias = list(dict.fromkeys(categorias)) #remove duplicados
+    filtro_categoria = False; #pro template saber se está filtrando as categorais, tb remove o carroussel
+    return render(request, 'pagina_meus_itens.html', {'objetos': objetos, 'categorias': categorias, 'filtro': filtro_categoria})
+
+def meus_itens_categoria(request, cat):
+    c = dic_categorias()
+    objetos = Objeto.objects.filter(usuario_dono = request.user).filter(tipo = c[cat])
+    categorias = []
+    for objeto in objetos:
+        categorias.append(objeto.get_tipo_display()) #populando categorias dos objetos existentes na database
+    categorias = list(dict.fromkeys(categorias)) #remove duplicados
+    filtro_categoria = True; #pro template saber se está filtrando as categorais, tb remove o carroussel    
+    return render(request, 'pagina_meus_itens.html', {'objetos': objetos, 'categorias': categorias, 'filtro': filtro_categoria})
+
+
+def home(request):
+    objetos = Objeto.objects.filter().exclude(usuario_dono = request.user)
+    categorias = []
+    for objeto in objetos:
+        categorias.append(objeto.get_tipo_display()) #populando categorias dos objetos existentes na database
+    categorias = list(dict.fromkeys(categorias)) #remove duplicados
+    filtro_categoria = False; #pro template saber se está filtrando as categorais, tb remove o carroussel
+    return render(request, 'pagina_itens.html', {'objetos': objetos, 'categorias': categorias, 'filtro': filtro_categoria})
+
+def home_categoria(request, cat):
+    c = dic_categorias()
+    objetos = Objeto.objects.filter().exclude(usuario_dono = request.user).filter(tipo = c[cat])
+    categorias = []
+    for objeto in objetos:
+        categorias.append(objeto.get_tipo_display()) #populando categorias dos objetos existentes na database
+    categorias = list(dict.fromkeys(categorias)) #remove duplicados
+
+    filtro_categoria = True; #pro template saber se está filtrando as categorais, tb remove o carroussel    
+    return render(request, 'pagina_itens.html', {'objetos': objetos, 'categorias': categorias, 'filtro': filtro_categoria})
 
 
 def pagelogout(request):
@@ -103,9 +154,7 @@ def pagelogout(request):
 
 def bemvindo(request):
     if request.user.is_authenticated:
-        objetos = Objeto.objects.filter().exclude(usuario_dono = request.user)
-        categorias = Objeto.TIPO_CHOICES
-        return render(request, 'pagina_itens.html', {'objetos': objetos, 'categorias': categorias})
+        return redirect('home')
     else:
         return render(request,"tindoar_front_page.html")
 
@@ -123,11 +172,6 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'SignUp.html', {'form': form})
 
-
-def home(request):
-    objetos = Objeto.objects.filter().exclude(usuario_dono = request.user)
-    categorias = Objeto.TIPO_CHOICES
-    return render(request, 'pagina_itens.html', {'objetos': objetos, 'categorias': categorias})
 
 def objeto_detail(request, pk):
     try:

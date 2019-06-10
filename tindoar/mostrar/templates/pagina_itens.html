@@ -106,20 +106,28 @@
     <div class="row">
       <div class="col-lg-3">
         <center><h2 class="my-4">Ítens Disponíveis</h2></center>
-        <center><h5 class="my-4">Explore por categorias:</h5></center>
-        <div class="list-group">
-          {% for categoria in categorias %}
-          <a href="#" class="list-group-item">{{categoria}}</a>
-          
-          {% endfor %}
+        
+        {% if not filtro %}
+          <center><h5 class="my-4">Explore por categorias:</h5></center>
+          <div class="list-group">
+            {% for categoria in categorias %}
+            <a href="/home/categoria/{{categoria}}" class="list-group-item">{{categoria}}</a>
+            {% endfor %}
+          </div>
 
-        </div>
+        {% else %}
+          {% for categoria in categorias %}
+            <center><h5 class="my-4">Mostrando: <b>{{categoria}}</b></h5></center>
+          {% endfor %}
+          <center><a href="/home"><button class="list-group-item">Mostrar tudo</button></a></center>
+        {% endif %}
 
       </div>
       <!-- /.col-lg-3 -->
 
       <div class="col-lg-9">
 
+        {% if not filtro %} <!-- não mostra o carrousel se filtrar categoria -->
         <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
           <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -146,31 +154,66 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
+        {% else %}
+        <br><br>
+        {%endif%}
+
+        {%if not objetos %}
+          <p align="center"><b><font color="red"> Não há ítens para doação na nossa base, volte mais tarde</font></b></center>
+        <br><br>
+        {% endif %}
 
         <div class="row">
           {% for objeto in objetos %}
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
+                <div class="card-header">
+                  <a class="card-title" href="{% url 'objeto_detail' objeto.id %}"><h5>{{ objeto.nome|capfirst}}</h5></a>
+                  
+                </div>
+
                 {% if objeto.imagem %}
                 <img class="card-img-top" src="{{ objeto.imagem.url }}" alt="Imagem de capa">
                 {% else %}
                 <img class="card-img-top" src="{%static 'imagens/default_obj_img.png'%}" alt="Imagem de capa">
                 {% endif %}
                 <div class="card-body">
-                  <a class="card-title" href="{% url 'objeto_detail' objeto.id %}"><h5>{{ objeto.nome|capfirst}}</h5></a>
-                  <p class="card-text" maxlength="140">{{objeto.descrição|truncatechars:100}}</p>
+                  <p class="card-text" maxlength="140"><b>Descrição:</b> {{objeto.descrição|truncatechars:100}}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><b>Categoria:</b> {{ objeto.get_tipo_display }}</li>
-                  <li class="list-group-item"> <a href="{% url 'ver_user' objeto.usuario_dono.id %}"><b>Doador:</b> {{objeto.usuario_dono}}</a></li>
-
+                  <li class="list-group-item"><a href="{% url 'home_categoria' objeto.get_tipo_display%}"><b>Categoria:</b> {{ objeto.get_tipo_display}}</a></li>
+                  <li class="list-group-item"> <a href="#" data-toggle="modal" data-target="#modalUser{{objeto.usuario_dono}}"><b>Doador:</b> {{objeto.usuario_dono}}</a></li>
                 </ul>
-                <div class="card-body">
+                <div class="card-footer">
                   <center><a href="{% url 'fazer_pedido' objeto.pk %}" class="card-link"><b>Fazer Pedido</b></a> <a href="{% url 'objeto_detail' objeto.id %}" class="card-link">Ver Item</a></center>
                 </div>
                 
               </div>
             </div>
+
+              <!-- Modal para detalhe do usuario-->
+              <div class="modal fade" id="modalUser{{objeto.usuario_dono}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Usuário: </b>{{objeto.usuario_dono}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <p><b>Nome Completo: </b>{{objeto.usuario_dono.first_name}} {{objeto.usuario_dono.last_name}}</p>
+                      <p><b>Email: </b>{{objeto.usuario_dono.email}}</p>
+                      <p><b>Último Login: </b>{{objeto.usuario_dono.last_login}}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                      <a href="mailto:{{objeto.usuario_dono.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>            
           {% endfor %}
 
         </div>
@@ -184,6 +227,14 @@
 
   </div>
   <!-- /.container -->
+
+
+
+
+
+
+
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

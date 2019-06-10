@@ -1,5 +1,6 @@
 {% load static %}
 
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <!-- Tela de login de teste por baidu -->
 <html lang="pt-br">
@@ -44,9 +45,13 @@
 					<center><img src="{% static 'imagens/logo150px.png' %}""></center>
 					<br>
 					<br>
-					
 					{% csrf_token %}
-                    {{ form.as_p }}
+					(Nome)
+                    {{ form.username|as_crispy_field}}
+
+                    (Senha)
+                    {{ form.password|as_crispy_field}}
+
 				                   
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">

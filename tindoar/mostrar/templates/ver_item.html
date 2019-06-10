@@ -70,7 +70,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Sobre nós</a>
+            <a class="nav-link" href="/sobre">Sobre nós</a>
           </li>
 
           <li class="nav-item">
@@ -120,7 +120,7 @@
     
     <br><br>
       <div class="card" align="center">
-        <h4 class="card-header" align="center"><b>Item:</b> {{objeto.nome}}</h4>
+        <h4 class="card-header" align="center"><b>Detalhe do item:</b> {{objeto.nome}}</h4>
         {% if objeto.imagem %}
         <img class="card-img-top" src="{{ objeto.imagem.url }}" alt="Imagem de capa">
         {% else %}
@@ -131,8 +131,11 @@
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><b>Categoria:</b> {{ objeto.get_tipo_display }}</li>
-          <li class="list-group-item"> <a href="{% url 'ver_user' objeto.usuario_dono.id %}"><b>Doador:</b> {{objeto.usuario_dono}}</a></li>
+          <li class="list-group-item"><b>pk?:</b> {{ objeto.id}}</li>
+          <li class="list-group-item"> <a href="{% url 'ver_user' objeto.usuario_dono.id %}" data-toggle="modal" data-target="#modalUser{{objeto.usuario_dono}}"><b>Doador:</b> {{objeto.usuario_dono}}</a></li>
         </ul>
+
+        {% if objeto.usuario_dono != user %}
         <div class="card-body">
           <div class="container-login100-form-btn">
             <div class="wrap-login100-form-btn">
@@ -143,10 +146,120 @@
             </div>
           </div>
         </div>
+        
+        {% else %}
+
+        <div class="card-body">
+          <center>
+          <a data-toggle="modal" data-target="#modalEditObj_{{objeto.id}}" href="#" class="card-link"><button type="button" class="btn btn-primary">Editar</button></a>
+          <a data-toggle="modal" data-target="#modalDeleteObj_{{objeto.id}}" class="card-link">
+          <button type="button" class="btn btn-danger">Apagar</button>
+          </a>
+        </center>
+
+        {% endif %}
+          
+        </div>
+        
+
+        
+
+
+
+
     </div>          
   </div>
   <br>
+
   <!-- /.container -->
+
+
+ <!-- Modal para detalhe do usuario-->
+              <div class="modal fade" id="modalUser{{objeto.usuario_dono}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Usuário: </b>{{objeto.usuario_dono}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <p><b>Nome Completo: </b>{{objeto.usuario_dono.first_name}} {{objeto.usuario_dono.last_name}}</p>
+                      <p><b>Email: </b>{{objeto.usuario_dono.email}}</p>
+                      <p><b>Último Login: </b>{{objeto.usuario_dono.last_login}}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                      <a href="mailto:{{objeto.usuario_dono.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Modal para edição de item do usuario-->
+
+              <div class="modal fade" id="modalEditObj_{{objeto.id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                $('#meuModal').modal('handleUpdate') 
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Editar Ítem: </b>{{objeto.nome}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <center>
+                        <div class="container-fluid">
+                        <div class="row" >
+                          <div class="col">
+                            <center>
+                              <iframe src="/objeto/{{objeto.pk}}/edit/" height=580" scrolling="no"></iframe>
+                            </center>
+                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" onclick="location.reload();">Fechar</button>
+                            
+                          </div>
+    
+
+                          
+                        </div>
+                   
+                      </div>
+                      </center>
+                    </div>
+
+                  </div>
+                </div>
+              </div> 
+
+
+            <!-- Moda para APAGAR ITEM -->
+              <div class="modal fade" id="modalDeleteObj_{{objeto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Remover Ítem: </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Remover ítem <b>{{objeto.nome}}?</b> Esta alteração não poderá ser desfeita!</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <a href="{%url 'item_delete' objeto.pk %}"><button type="button" class="btn btn-danger">Sim, remover</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

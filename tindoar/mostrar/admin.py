@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from .models import Usuario
+# from .models import Usuario
 from .models import Objeto
 from .models import Pedido
 
-@admin.register(Usuario)
-class UsuarioAdmin(admin.ModelAdmin):
-    list_display = ['login','nome','telefone','sex']
+# @admin.register(Usuario)
+# class UsuarioAdmin(admin.ModelAdmin):
+#     list_display = ['login','nome','telefone','sex']
 
 @admin.register(Objeto)
 class ObjetoAdmin(admin.ModelAdmin):

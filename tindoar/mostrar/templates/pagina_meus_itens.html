@@ -95,7 +95,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="ver_seus_pedidos">Meus Pedidos</a>
+            <a class="nav-link" href="/ver_seus_pedidos">Meus Pedidos</a>
           </li>
 
           <li class="nav-item">
@@ -123,14 +123,22 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
-        <center><h2 class="my-4">Meus Ítens</h2></center>
-        <center><h5 class="my-4">Explore por categorias:</h5></center>
-        <div class="list-group">
-          {% for categoria in categorias %}
-          <a href="#" class="list-group-item">{{categoria}}</a>
-          {% endfor %}
+        <center><h2 class="my-4">Seus Ítens</h2></center>
+        
+        {% if not filtro %}
+          <center><h5 class="my-4">Explore por categorias:</h5></center>
+          <div class="list-group">
+            {% for categoria in categorias %}
+            <a href="/meus_itens/categoria/{{categoria}}" class="list-group-item">{{categoria}}</a>
+            {% endfor %}
+          </div>
 
-        </div>
+        {% else %}
+          {% for categoria in categorias %}
+            <center><h5 class="my-4">Mostrando: <b>{{categoria}}</b></h5></center>
+          {% endfor %}
+          <center><a href="/meus_itens"><button class="list-group-item">Mostrar tudo</button></a></center>
+        {% endif %}
 
       </div>
       <!-- /.col-lg-3 -->
@@ -138,6 +146,11 @@
       <div class="col-lg-9">
 
         <br><br>
+
+              {%if not objetos %}
+                <p align="center"><b><font color="red"> Não há ítens para doação ainda. Faça uma doação! </font></b></center>
+                <br><br>
+              {% endif %}
 
         <div class="row">
           {% for objeto in objetos %}
@@ -154,13 +167,80 @@
                   <p class="card-text" maxlength="140">{{objeto.descrição|truncatechars:100}}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><b>Categoria:</b> {{ objeto.get_tipo_display }}</li>
+                  <li class="list-group-item"><a href="{% url 'meus_itens_categoria' objeto.get_tipo_display%}"><b>Categoria:</b> {{ objeto.get_tipo_display}}</a></li>
                 </ul>
                 <div class="card-body">
-                  <center><a href="{% url 'objeto_detail' objeto.id %}edit" class="card-link">Editar Ítem</a></center>
+                 <center>
+                    <a data-toggle="modal" data-target="#modalEditObj_{{objeto.id}}" href="#" class="card-link"><button type="button" class="btn btn-primary">Editar</button></a>
+                  <a data-toggle="modal" data-target="#modalDeleteObj_{{objeto.id}}" class="card-link">
+                    <button type="button" class="btn btn-danger">Apagar</button>
+                  </a>
+                 </center>
+                  
                 </div>
               </div>
             </div>
+
+
+            <!-- Modal para edição de item do usuario-->
+
+              <div class="modal fade" id="modalEditObj_{{objeto.id}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                $('#meuModal').modal('handleUpdate') 
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Editar Ítem: </b>{{objeto.nome}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <center>
+                        <div class="container-fluid">
+                        <div class="row" >
+                          <div class="col">
+                            <center>
+                              <iframe src="/objeto/{{objeto.pk}}/edit/" height=580" scrolling="no"></iframe>
+                            </center>
+                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" onclick="location.reload();">Fechar</button>
+                            
+                          </div>
+    
+
+                          
+                        </div>
+                   
+                      </div>
+                      </center>
+                    </div>
+
+                  </div>
+                </div>
+              </div> 
+
+
+            <!-- Moda para APAGAR ITEM -->
+              <div class="modal fade" id="modalDeleteObj_{{objeto.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Remover Ítem: </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Remover ítem <b>{{objeto.nome}}?</b> Esta alteração não poderá ser desfeita!</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <a href="{%url 'item_delete' objeto.pk %}"><button type="button" class="btn btn-danger">Sim, remover</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
           {% endfor %}
 
         </div>
