@@ -95,11 +95,11 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Solicitações</a>
+            <a class="nav-link" href="/ver_pedidos">Solicitações</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Minha Conta</a>
+            <a class="nav-link" href="/minha_conta">Minha Conta</a>
           </li>
 
           <li class="nav-item">
@@ -127,11 +127,11 @@
         <img class="card-img-top" src="{%static 'imagens/default_obj_img.png'%}" alt="Imagem de capa">
         {% endif %}
         <div class="card-body">
-          <p class="card-text" maxlength="140"><b>Descrição: </b>{{objeto.descrição|truncatechars:100}}</p>
+          <p class="card-text" maxlength="140"><b>Descrição: </b>{{objeto.descrição}}</p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><b>Categoria:</b> {{ objeto.get_tipo_display }}</li>
-          <li class="list-group-item"><b>pk?:</b> {{ objeto.id}}</li>
+          <li class="list-group-item"><b>ID no Tindoar:</b> {{ objeto.id}}</li>
           <li class="list-group-item"> <a href="{% url 'ver_user' objeto.usuario_dono.id %}" data-toggle="modal" data-target="#modalUser{{objeto.usuario_dono}}"><b>Doador:</b> {{objeto.usuario_dono}}</a></li>
         </ul>
 
@@ -140,9 +140,9 @@
           <div class="container-login100-form-btn">
             <div class="wrap-login100-form-btn">
               <div class="login100-form-bgbtn"></div>
-              <a href="{% url 'fazer_pedido' objeto.pk %}""><button class="login100-form-btn" type="submit">
+              <button class="login100-form-btn" type="submit"  data-toggle="modal" data-target="#modal_pedido{{objeto.pk}}">
                 Fazer Pedido
-              </button></a>
+              </button>
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@
                         <div class="row" >
                           <div class="col">
                             <center>
-                              <iframe src="/objeto/{{objeto.pk}}/edit/" height=580" scrolling="no"></iframe>
+                              <iframe src="/objeto/{{objeto.pk}}/edit/" height=700" scrolling="no"></iframe>
                             </center>
                             <button type="button" class="btn btn-secondary"  data-dismiss="modal" onclick="location.reload();">Fechar</button>
                             
@@ -252,6 +252,34 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                       <a href="{%url 'item_delete' objeto.pk %}"><button type="button" class="btn btn-danger">Sim, remover</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal confirmação de pedido -->
+              <div class="modal fade" id="modal_pedido{{objeto.pk}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><b>Fazer Pedido: </b>{{objeto.nome}}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <h6 class="text-danger" align="center"><b>Você tem certeza que deseja fazer pedido do ítem?</b></h6>
+                      <br>
+
+                      <p><b>Item: </b>{{objeto.nome}}</p>
+                      <p><b>Doador: </b><font class="text-success">{{objeto.usuario_dono}} </font> ({{objeto.usuario_dono.first_name}} {{objeto.usuario_dono.last_name}})</p>
+                      <p><b>Categoria: </b>{{objeto.get_tipo_display}} </p>
+                      <br>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <a href="{% url 'fazer_pedido' objeto.pk %}"><button type="button" class="btn btn-success">Confirmar Pedido</button></a>
                       
                     </div>
                   </div>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -10,7 +11,7 @@
   <meta name="author" content="">
   <link rel="shortcut icon" href="{% static 'imagens/favicon.ico' %} " />
 
-  <title>Tindoar - Parabéns Pela Doação!</title>
+  <title>Tindoar - Fazer Doação</title>
    <!-- Bootstrap core CSS -->
   <link href="{% static 'pagina_itens/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -59,7 +60,6 @@
         <ul class="navbar-nav ml-auto">
           
 
-          
           <li class="nav-item">
             <a class="nav-link" href="/home">Doações
               
@@ -78,9 +78,8 @@
             <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
           </li>
 
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/criar_item">Doar
-              <span class="sr-only">(current)</span>
             </a>
           </li>
 
@@ -89,15 +88,16 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="ver_seus_pedidos">Meus Pedidos</a>
+            <a class="nav-link" href="/ver_seus_pedidos">Meus Pedidos</a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="/ver_pedidos">Solicitações</a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="/minha_conta">Minha Conta</a>
+            <span class="sr-only">(current)</span>
           </li>
 
           <li class="nav-item">
@@ -114,34 +114,75 @@
 
     <!-- Page Content -->
   <center>
-      <br><br><br>
-      <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-          
+    <br><br><br>
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100" align="left">
+          <form method = "POST" class="login100-form validate-form" enctype="multipart/form-data">
             <span class="login100-form-title p-b-26">
-              Sucesso!
+              Minha Conta:
             </span>
-            
-            <center><h5>Seu ítem <b>{{objeto.nome}}</b> foi cadastrado na nosa base de dados.<br><br></h5></center>
-            <center><img src="{%static 'doado_sucesso/fire_doado.gif'%}" width="250"></center>
-             
-            <a href="{% url 'objeto_detail' objeto.id %}"> 
-              <div class="container-login100-form-btn">
-                <div class="wrap-login100-form-btn">
-                  <div class="login100-form-bgbtn"></div>
-                   <button class="login100-form-btn">Ver Item</button> 
-                </div>
+            <p><b>Nome de Usuário: </b> {{user.get_username}}</p>
+            <p><b>Nome: </b>{{user.first_name}}</p>
+            <p><b>Sobrenome: </b>{{user.last_name}}</p>
+            <p><b>E-Mail: </b>{{user.email}}</p>
+
+            <div class="container-login100-form-btn">
+              <div class="wrap-login100-form-btn">
+                <div class="login100-form-bgbtn"></div>
+                <a href="" data-toggle="modal" data-target="#modalEditUsr">
+                  <button class="login100-form-btn" data>
+                  Editar Detalhes
+                </button>
+                </a>
+
+                
               </div>
-            </a>
-         
-        </div>
-        
+            </div>
+
+          </form>
         </div>
       </div>
+    </div>
   </center>
 
     <br>
+
+     <!-- Modal para edição do usuario-->
+
+              <div class="modal fade" id="modalEditUsr" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                $('#meuModal').modal('handleUpdate') 
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Editar Detalhes do Usuário: </b>{{user.get_username}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <center>
+                        <div class="container-fluid">
+                        <div class="row" >
+                          <div class="col">
+                            <center>
+                              <iframe src="/edit_user/{{user.id}}" height="680" scrolling="no"></iframe>
+                            </center>
+                            <button type="button" class="btn btn-secondary"  data-dismiss="modal" onclick="location.reload();">Fechar</button>
+                            
+                          </div>
+    
+
+                          
+                        </div>
+                   
+                      </div>
+                      </center>
+                    </div>
+
+                  </div>
+                </div>
+              </div> 
 
   <!-- /.container -->
 

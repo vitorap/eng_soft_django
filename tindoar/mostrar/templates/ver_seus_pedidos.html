@@ -1,11 +1,535 @@
-{% for pedido in pedidos %}
-	<p>{{pedido.usuario_interessado}}</p>
-	<p>{{pedido.usuario_dono}}</p>
-	<p>{{pedido.data_requisito}}</p>
-	<p>{{pedido.status}}</p>
-	<p>{{pedido.objeto_solicitado}}</p>
-	<a href="{% url 'ver_user' pedido.usuario_dono.pk %}" class="card-link">Ver Perfil Dono</a>
-	<br>
-{% endfor %}
-<a href="{% url 'edit_user' request.user.pk %}" class="card-link">Editar Perfil</a>
-<a href="{% url 'ver_user' request.user.pk %}" class="card-link">Ver seu Perfil</a>
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+<!-- Página para ver solicitações (pedidos pendentes)-->
+
+
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="{% static 'imagens/favicon.ico' %} " />
+
+
+   <!-- Estilo-->
+  <link rel="shortcut icon" href="{% static 'imagens/favicon.ico' %} " />
+  <link rel="stylesheet" type="text/css" href='{% static 'loginscreen/vendor/bootstrap/css/bootstrap.min.css' %} '>
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %} ">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/iconic/css/material-design-iconic-font.min.css' %} ">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animate/animate.css' %} "> 
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/css-hamburgers/hamburgers.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animsition/css/animsition.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/select2/select2.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+ <!-- /Estilo-->
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'pagina_itens/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'pagina_itens/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+	 
+	
+
+	<!-- botão de topo hover -->
+	<style type="text/css">
+				#return-to-top {
+		    position: fixed;
+		    bottom: 20px;
+		    right: 20px;
+		    background: rgb(0, 0, 0);
+		    background: rgba(0, 0, 0, 0.7);
+		    width: 50px;
+		    height: 50px;
+		    display: block;
+		    text-decoration: none;
+		    -webkit-border-radius: 35px;
+		    -moz-border-radius: 35px;
+		    border-radius: 35px;
+		    display: none;
+		    -webkit-transition: all 0.3s linear;
+		    -moz-transition: all 0.3s ease;
+		    -ms-transition: all 0.3s ease;
+		    -o-transition: all 0.3s ease;
+		    transition: all 0.3s ease;
+		}
+		#return-to-top i {
+		    color: #fff;
+		    margin: 0;
+		    position: relative;
+		    left: 16px;
+		    top: 13px;
+		    font-size: 19px;
+		    -webkit-transition: all 0.3s ease;
+		    -moz-transition: all 0.3s ease;
+		    -ms-transition: all 0.3s ease;
+		    -o-transition: all 0.3s ease;
+		    transition: all 0.3s ease;
+		}
+		#return-to-top:hover {
+		    background: rgba(0, 0, 0, 0.9);
+		}
+		#return-to-top:hover i {
+		    color: #fff;
+		    top: 5px;
+		}
+	</style>
+
+	<!-- botão de topo hover -->
+	
+
+
+
+  <title>Tindoar - Ver Seus Pedidos</title>
+
+</head>
+
+
+
+<body>
+
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <img src="{% static 'imagens/small.png' %}">
+
+
+      <a class="navbar-brand" href="/home">⠀Tindoar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+
+          
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Doações
+              
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/sobre">Sobre nós</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#"><b></b></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/criar_item">Doar</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/meus_itens">Meus ítens</a>
+          </li>
+
+          <li class="nav-item active">
+            <a class="nav-link" href="ver_seus_pedidos">Meus Pedidos</a>
+            <span class="sr-only">(current)</span>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/ver_pedidos">Solicitações</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/minha_conta">Minha Conta</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
+            <form id="logoutform" method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden">
+          </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<!-- Page Content -->
+
+  <br><br>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-3">
+        <center><h2 class="my-4">Meus Pedidos:</h2></center>
+        {%if pedidos %}
+        <h5 class="my-4" align="center">Explore por Status:</h5>
+        <div class="list-group">
+            <a href="#pedidos_pendentes" class="list-group-item">Pedidos Pendentes de Análise</a>
+            <a href="#pedidos_aprovados" class="list-group-item">Pedidos Aprovados</a>
+            <a href="#pedidos_recusados" class="list-group-item">Pedidos Recusados</a>
+            
+        </div>
+        {%endif%}
+        
+        
+        
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9" id="pedidos_pendentes">
+
+        
+      	<h5 class="my-4" align="center">Gerencie seus pedidos de doação feitos na platadorma do Tindoar</h5>
+        {%if not pedidos %}
+                <p align="center"><b><font color="red"> Não há Solicitações para listar. </font></b></center>
+                <br><br>
+        {%else%}
+
+        
+
+        <div id="pedidos_pendentes">
+	        
+	        <hr>
+	        <h4>Pendentes de Análise:</h4> <br>
+	    </div>
+
+        
+
+
+        <div class="row"> <!-- row espera -->
+        	{% for pedido in pedidos %}
+            	{% if "Espera" in pedido.status %}
+            	<div class="col-lg-4 col-md-6 mb-4">
+		              <div class="card border-warning">
+		              	<div class="card-header bg-warning">
+		                  <a class="card-title" href="" data-toggle="modal" data-target="#modalUser{{pedido.usuario_dono}}"><h6>Doador: <b>{{pedido.usuario_dono}}</b></h6></a>
+		                  
+		                </div>
+
+		                {% if pedido.objeto_solicitado.imagem %}
+		                <img class="card-img-top" src="{{ pedido.objeto_solicitado.imagem.url }}" alt="Imagem de capa">
+		                {% else %}
+		                <img class="card-img-top" src="{%static 'imagens/default_obj_img.png'%}" alt="Objeto sem imagem">
+		                {% endif %}
+		                <div class="card-body">
+		                  <a class="card-title" href=""><h5>{{pedido.objeto_solicitado.nome}}</h5></a>
+		                </div>
+		                <ul class="list-group list-group-flush">
+		                	<li class="list-group-item"><b>Status: </b><font class="text-warning">Pendente</font> </li>
+		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
+		                  <li class="list-group-item"><a href=""><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </a></li>
+                      <li class="list-group-item"><a href=""><b>Data: </b>{{pedido.data_requisito|date:"SHORT_DATE_FORMAT"}} </a></li>
+
+
+
+		                </ul>
+		                <div class="card-body">
+		                 <center>
+		                  <a data-toggle="modal" data-target="#modalRecusaPD_{{pedido.id}}" class="card-link">
+		                    <button type="button" class="btn btn-danger">Cancelar Pedido</button>
+		                  </a>
+		                 </center>
+		                  
+		                </div>
+		              </div>
+            	</div>
+              <!-- Modal para detalhe do usuario doador-->
+              <div class="modal fade" id="modalUser{{pedido.usuario_dono}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Usuário: </b>{{pedido.usuario_dono.username}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <p><b>Nome Completo: </b>{{pedido.usuario_dono.first_name}} {{pedido.usuario_dono.last_name}}</p>
+                      <p><b>Email: </b>{{pedido.usuario_dono.email}}</p>
+                      <p><b>Último Login: </b>{{pedido.usuario_dono.last_login}}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                      <a href="mailto:{{pedido.usuario_interessado.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            	{%endif%}
+            	<!-- MODAL -->
+<!-- MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL -->
+            
+
+          
+            <!-- Modal para RETIRAR PEDIDO -->
+              <div class="modal fade" id="modalRecusaPD_{{pedido.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Remover Pedido de Doação: </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Remover pedido de doação do ítem <b>{{pedido.objeto_solicitado.nome}}</b> ?<br> Esta alteração não poderá ser desfeita!</p>
+                      <b>Laura Precisa Implementar isso no Backend, uma view pra remover pedido com seu pk</b>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <a href="#"><button type="button" class="btn btn-danger">Sim, Remover</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+<!--/ MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL MODAL -->
+          {% endfor %}
+        </div>
+        <!-- /.row Espera-->
+        
+
+        <div id="pedidos_aprovados">
+        	 <br>
+        	<br>
+        	<hr>    
+        </div>
+       
+        
+
+        <h4 >Aprovados:</h4> <br>
+        <div class="row"> <!-- row Aprovados -->
+        	{% for pedido in pedidos %}
+            	{% if "Aprovado" in pedido.status %}
+            	<div class="col-lg-4 col-md-6 mb-4">
+		              <div class="card border-success">
+		              	<div class="card-header bg-success">
+		                  <a class="card-title text-white" href="" data-toggle="modal" data-target="#modalUser{{pedido.usuario_dono}}"><h6>Doador: <b>{{pedido.usuario_dono}}</b></h6></a>
+		                  
+		                </div>
+
+		                {% if pedido.objeto_solicitado.imagem %}
+		                <img class="card-img-top" src="{{ pedido.objeto_solicitado.imagem.url }}" alt="Imagem de capa">
+		                {% else %}
+		                <img class="card-img-top" src="{%static 'imagens/default_obj_img.png'%}" alt="Objeto sem imagem">
+		                {% endif %}
+		                <div class="card-body">
+		                  <a class="card-title" href=""><h5>{{pedido.objeto_solicitado.nome}}</h5></a>
+		                </div>
+		                <ul class="list-group list-group-flush">
+		                	<li class="list-group-item"><b>Status: </b><font class="text-success">Aprovado</font> </li>
+		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
+		                  	<li class="list-group-item"><a href=""><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </a></li>
+
+
+
+		                </ul>
+		                <!-- <div class="card-body">
+		                 		                  
+		                </div> -->
+		              </div>
+            	</div>
+              <!-- Modal para detalhe do usuario doador-->
+              <div class="modal fade" id="modalUser{{pedido.usuario_dono}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Usuário: </b>{{pedido.usuario_dono.username}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <p><b>Nome Completo: </b>{{pedido.usuario_dono.first_name}} {{pedido.usuario_dono.last_name}}</p>
+                      <p><b>Email: </b>{{pedido.usuario_dono.email}}</p>
+                      <p><b>Último Login: </b>{{pedido.usuario_dono.last_login}}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                      <a href="mailto:{{pedido.usuario_interessado.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div> 
+
+            	{%endif%}
+          {% endfor %}
+        </div>
+        <!-- /.row Aceitas-->
+        
+        
+
+        <div id="pedidos_recusados">
+        	<br>
+        	<br >
+        	<hr>
+        </div>
+
+        <h4 >Recusados:</h4> <br>
+
+        <div class="row"> <!-- row Recusadas -->
+        	{% for pedido in pedidos %}
+            	{% if "Recusado" in pedido.status %}
+            	<div class="col-lg-4 col-md-6 mb-4">
+		              <div class="card border-danger">
+		              	<div class="card-header bg-danger">
+		                  <a class="card-title text-white" href="" data-toggle="modal" data-target="#modalUser{{pedido.usuario_dono}}"><h6>Doador: <b>{{pedido.usuario_dono}}</b></h6></a>
+		                  
+		                </div>
+
+		                {% if pedido.objeto_solicitado.imagem %}
+		                <img class="card-img-top" src="{{ pedido.objeto_solicitado.imagem.url }}" alt="Imagem de capa">
+		                {% else %}
+		                <img class="card-img-top" src="{%static 'imagens/default_obj_img.png'%}" alt="Objeto sem imagem">
+		                {% endif %}
+		                <div class="card-body">
+		                  <a class="card-title" href=""><h5>{{pedido.objeto_solicitado.nome}}</h5></a>
+		                </div>
+		                <ul class="list-group list-group-flush">
+		                	<li class="list-group-item"><b>Status: </b><font class="text-danger">Recusado</font> </li>
+		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
+		                  	<li class="list-group-item"><a href=""><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </a></li>
+
+
+
+		                </ul>
+		              </div>
+            	</div>
+              <!-- Modal para detalhe do usuario doador-->
+              <div class="modal fade" id="modalUser{{pedido.usuario_dono}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Usuário: </b>{{pedido.usuario_dono.username}}</center></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">               
+                      <p><b>Nome Completo: </b>{{pedido.usuario_dono.first_name}} {{pedido.usuario_dono.last_name}}</p>
+                      <p><b>Email: </b>{{pedido.usuario_dono.email}}</p>
+                      <p><b>Último Login: </b>{{pedido.usuario_dono.last_login}}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                      <a href="mailto:{{pedido.usuario_interessado.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div> 
+
+            	{%endif%}
+          {% endfor %}
+        </div>
+        <!-- /.row Recusadas-->
+
+       
+        {% endif %} <!-- if da mensagem de inexistencia de pedidos pra listar -->
+      </div>
+      <!-- /.col-lg-9 -->
+
+
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+
+
+
+
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Tindoar 2019 - Um projeto da disciplina Engenharia de Software - Universidade de São Paulo</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+
+	<a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+
+	<script>
+				// ===== Scroll to Top ==== 
+		$(window).scroll(function() {
+		    if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+		        $('#return-to-top').fadeIn(200);    // Fade in the arrow
+		    } else {
+		        $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+		    }
+		});
+		$('#return-to-top').click(function() {      // When arrow is clicked
+		    $('body,html').animate({
+		        scrollTop : 0                       // Scroll to top of body
+		    }, 500);
+		});
+	</script>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+	  // Add smooth scrolling to all links
+	  $("a").on('click', function(event) {
+
+	    // Make sure this.hash has a value before overriding default behavior
+	    if (this.hash !== "") {
+	      // Prevent default anchor click behavior
+	      event.preventDefault();
+
+	      // Store hash
+	      var hash = this.hash;
+
+	      // Using jQuery's animate() method to add smooth page scroll
+	      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+	      $('html, body').animate({
+	        scrollTop: $(hash).offset().top
+	      }, 1000, function(){
+	   
+	        // Add hash (#) to URL when done scrolling (default click behavior)
+	        window.location.hash = hash;
+	      });
+	    } // End if
+	  });
+	});
+	</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

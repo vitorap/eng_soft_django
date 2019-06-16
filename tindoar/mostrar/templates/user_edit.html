@@ -1,6 +1,46 @@
-<div>
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{% static 'loginscreen/images/icons/favicon.ico' %} "/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href='{% static 'loginscreen/vendor/bootstrap/css/bootstrap.min.css' %} '>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %} ">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/iconic/css/material-design-iconic-font.min.css' %} ">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animate/animate.css' %} ">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+	<div>
 <form method="POST" class="post-form">
   {% csrf_token %}
-  {{ form.as_p }}
-<button type="submit" class="save btn btn-default">Save</button>
+  {{ form|crispy }}
+  <center><button type="submit" class="btn btn-success">Salvar Alterações</button></center>
 </div>
+
+</body>
+</html>
+
+
+
+
+
+

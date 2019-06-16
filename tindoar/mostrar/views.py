@@ -15,10 +15,22 @@ def dic_categorias():
     # ^^Esse dicionário serve para traduzir o display name de TIPO_CHOICES para o valor do banco de dados. 
     # Deve sempre ficar atualizado com models.py para refletir as categorias existentes.
     categorias_dict = {
-    'Brinquedos' : 'B',
-    'Livros' : 'L',
-    'Roupas' : 'R',
-    'Outros' : 'O',
+    'Animais De Estimação' : 'AN',
+    'Brinquedos' : 'BQ',
+    'Eletrodomésticos' : 'ED',
+    'Eletrônicos' : 'EL',
+    'Ferramentas' : 'FR',
+    'Itens Para Casa' : 'IC',
+    'Instrumentos Musicais' : 'IM',
+    'Jogos de Tabuleiro' : 'JT',
+    'Livros' : 'LI',
+    'Material de Estudo' : 'ME',
+    'Mobília' : 'MB',
+    'Perfumes e Cosméticos' : 'PC',
+    'Roupas e Vestuário' : 'RV',
+    'Saúde e Medicina' : 'SD',
+    'Videogame' : 'JV',
+    'Outros' : 'OT',
     }
     return categorias_dict
 
@@ -34,7 +46,7 @@ def fazer_pedido(request, pk):
 
         )
     pedido.save()
-    return render(request,'fazer_pedido.html', {'pedido': pedido})
+    return redirect('ver_seus_pedido')
 
 def aceitar_pedidos(request, pk):
     pedido = get_object_or_404(Pedido, pk=pk)
@@ -180,14 +192,18 @@ def objeto_detail(request, pk):
         raise Http404('Item nao encontrado')
     return render(request, 'ver_item.html',{'objeto': objeto})
 
+def minha_conta(request):
+     return render(request, 'minha_conta.html')
 
 
-def usuario_detail(request, id):
-    try:
-        usuario = Usuario.objects.get(id=id)
-    except Usuario.DoesNotExist:
-        raise Http404('Usuario nao encontrado')
-    return render(request, 'usuario_detail.html',{'usuario': usuario})
+
+
+# def usuario_detail(request, id):
+#     try:
+#         usuario = Usuario.objects.get(id=id)
+#     except Usuario.DoesNotExist:
+#         raise Http404('Usuario nao encontrado')
+#     return render(request, 'usuario_detail.html',{'usuario': usuario})
 
 def edit_user(request, pk):
     user = User.objects.get(pk=pk)
@@ -200,7 +216,7 @@ def edit_user(request, pk):
                     update = form.save(commit=False)               
                     update.user = user
                     update.save()
-                    return HttpResponse('Confirm')                
+                    return HttpResponse("<center><h3><b></b>Alterações salvas com sucesso! Clique em fechar.</h3></center>")                
     else:
         form = UserProfileForm(instance=user)
 

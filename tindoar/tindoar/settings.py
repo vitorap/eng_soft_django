@@ -25,7 +25,7 @@ SECRET_KEY = 'm3bz_h#!3iop8iu@!l_l4h3bsqg6u6aan7=(*e-)n6b7=))iu2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1:8000','127.0.0.1','.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1:8000','127.0.0.1','.pythonanywhere.com', '192.168.31.101',]
 
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'tindoar.urls'
