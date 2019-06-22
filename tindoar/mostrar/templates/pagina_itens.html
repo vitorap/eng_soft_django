@@ -20,7 +20,7 @@
 
    <!-- Estilo Botão-->
   <link rel="shortcut icon" href="{% static 'imagens/favicon.ico' %} " />
-  <link rel="stylesheet" type="text/css" href='{% static 'loginscreen/vendor/bootstrap/css/bootstrap.min.css' %} '>
+  <link rel="stylesheet" type="text/css" href= "{% static 'loginscreen/vendor/bootstrap/css/bootstrap.min.css' %} ">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %} ">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/iconic/css/material-design-iconic-font.min.css' %} ">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/animate/animate.css' %} "> 
@@ -31,6 +31,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link href="{% static 'tindoar-font/tindoar-font.css' %}" rel="stylesheet">
  <!-- /Estilo Botão-->
 
   <!-- botão de topo hover -->
@@ -85,12 +86,12 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
-      <img src="{% static 'imagens/small.png' %}">
+     <img src="{% static 'imagens/small.png' %}" height="42">
+      
 
-
-      <a class="navbar-brand" href="/home">⠀Tindoar</a>
+      <a class="navbar-brand" href="/home"><font style = "font-family:tinder; font-stretch: extra-expanded; font-size: 24px ">⠀tindoar</font> </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -107,14 +108,7 @@
           <li class="nav-item">
             <a class="nav-link" href="/sobre">Sobre nós</a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#"><b></b></a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
-          </li>
+                  
 
           <li class="nav-item">
             <a class="nav-link" href="/criar_item">Doar</a>
@@ -132,24 +126,29 @@
             <a class="nav-link" href="/ver_pedidos">Solicitações</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/minha_conta">Minha Conta</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Logado como <b>{{ user.get_username }}</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/minha_conta">Minha Conta</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
+              <form id="logoutform" method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden">
+              </form>
+            </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
-            <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden">
-          </form>
-          </li>
+          
         </ul>
       </div>
     </div>
   </nav>
 
   <!-- Page Content -->
-  <br><br>
+ 
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
@@ -231,6 +230,7 @@
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item"><a href="{% url 'home_categoria' objeto.get_tipo_display%}"><b>Categoria:</b> {{ objeto.get_tipo_display}}</a></li>
                   <li class="list-group-item"> <a href="#" data-toggle="modal" data-target="#modalUser{{objeto.usuario_dono}}"><b>Doador:</b> {{objeto.usuario_dono}}</a></li>
+                  <li class="list-group-item"><a href="#"><b>Cidade: </b>{{objeto.cidade}} - {{objeto.UF}}</a></li>
                 </ul>
                 <div class="card-footer">
                   <center><a href="#" class="card-link" data-toggle="modal" data-target="#modal_pedido{{objeto.pk}}"><b>Fazer Pedido</b></a> 
@@ -281,12 +281,13 @@
                     </div>
                     <div class="modal-body">               
                       <p><b>Nome Completo: </b>{{objeto.usuario_dono.first_name}} {{objeto.usuario_dono.last_name}}</p>
-                      <p><b>Email: </b>{{objeto.usuario_dono.email}}</p>
                       <p><b>Último Login: </b>{{objeto.usuario_dono.last_login}}</p>
+                      <br>
+                      <p>Informações de contato somente são mostradas para pedidos aprovados</p>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                      <a href="mailto:{{objeto.usuario_dono.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
                       
                     </div>
                   </div>
@@ -322,7 +323,7 @@
   <!-- Bootstrap core JavaScript -->
   <script src="{% static 'pagina_itens/vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'pagina_itens/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <a href="javascript:" id="return-to-top"><i class="icon-chevron-up"></i></a>
+  <a href="javascript:" id="return-to-top"><i class="icon-chevron-up" title="^"></i></a>
   <script>
         // ===== Scroll to Top ==== 
     $(window).scroll(function() {

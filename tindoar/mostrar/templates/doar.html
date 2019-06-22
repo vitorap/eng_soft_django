@@ -17,6 +17,11 @@
 
   <!-- Custom styles for this template -->
   <link href="{% static 'pagina_itens/css/shop-homepage.css"' %} rel="stylesheet">
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'pagina_itens/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'pagina_itens/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'loginscreen/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
   
   <!--===============================================================================================-->
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %} ">
@@ -35,6 +40,7 @@
 <!--===============================================================================================-->
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+  <link href="{% static 'tindoar-font/tindoar-font.css' %}" rel="stylesheet">
 
 
 
@@ -47,12 +53,12 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
-      <img src="{% static 'imagens/small.png' %}">
+      <img src="{% static 'imagens/small.png' %}" height="42">
 
 
-      <a class="navbar-brand" href="/home">⠀Tindoar</a>
+      <a class="navbar-brand" href="/home"><font style = "font-family:tinder; font-stretch: extra-expanded; font-size: 24px ">⠀tindoar</font> </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -70,14 +76,7 @@
             <a class="nav-link" href="/sobre">Sobre nós</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#"><b></b></a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
-          </li>
-
+          
           <li class="nav-item active">
             <a class="nav-link" href="/criar_item">Doar
               <span class="sr-only">(current)</span>
@@ -96,17 +95,22 @@
             <a class="nav-link" href="/ver_pedidos">Solicitações</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/minha_conta">Minha Conta</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Logado como <b>{{ user.get_username }}</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/minha_conta">Minha Conta</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
+              <form id="logoutform" method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden">
+              </form>
+            </div>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
-            <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden">
-          </form>
-          </li>
+
         </ul>
       </div>
     </div>
@@ -114,8 +118,9 @@
 
     <!-- Page Content -->
   <center>
-    <br><br><br>
+    
     <div class="limiter">
+   
       <div class="container-login100">
         <div class="wrap-login100" align="left">
           <form method = "POST" class="login100-form validate-form" enctype="multipart/form-data">
@@ -141,7 +146,7 @@
     </div>
   </center>
 
-    <br>
+   
 
   <!-- /.container -->
 
@@ -153,16 +158,13 @@
     <!-- /.container -->
   </footer>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="{% static 'pagina_itens/vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'pagina_itens/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'loginscreen/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+  
 <!--===============================================================================================-->
   <script src="{% static 'loginscreen//vendor/animsition/js/animsition.min.js' %}"></script>
 <!--===============================================================================================-->
   <script src= "{% static 'loginscreen/vendor/bootstrap/js/popper.js' %}"> </script>
 
-  <script src="{% static 'loginscreen/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+  
 <!--===============================================================================================-->
   <script src="{% static 'loginscreen/vendor/select2/select2.min.js' %}"></script>
 <!--===============================================================================================-->

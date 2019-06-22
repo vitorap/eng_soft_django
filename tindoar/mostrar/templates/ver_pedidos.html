@@ -29,6 +29,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="{% static 'tindoar-font/tindoar-font.css' %}" rel="stylesheet">
  <!-- /Estilo-->
 
 
@@ -97,12 +98,12 @@
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
-      <img src="{% static 'imagens/small.png' %}">
+      <img src="{% static 'imagens/small.png' %}" height="42">
 
 
-      <a class="navbar-brand" href="/home">⠀Tindoar</a>
+      <a class="navbar-brand" href="/home"><font style = "font-family:tinder; font-stretch: extra-expanded; font-size: 24px ">⠀tindoar</font> </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -121,14 +122,7 @@
             <a class="nav-link" href="/sobre">Sobre nós</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#"><b></b></a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
-          </li>
-
+         
           <li class="nav-item">
             <a class="nav-link" href="/criar_item">Doar</a>
           </li>
@@ -146,16 +140,19 @@
             <span class="sr-only">(current)</span>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/minha_conta">Minha Conta</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
-            <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden">
-          </form>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Logado como <b>{{ user.get_username }}</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/minha_conta">Minha Conta</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
+              <form id="logoutform" method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden">
+              </form>
+            </div>
           </li>
         </ul>
       </div>
@@ -165,7 +162,6 @@
 
 <!-- Page Content -->
 
-  <br><br>
   <div class="container">
 
     <div class="row">
@@ -228,7 +224,8 @@
 		                <ul class="list-group list-group-flush">
 		                	<li class="list-group-item"><b>Status: </b><font class="text-warning">Pendente</font> </li>
 		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
-		                  	<li class="list-group-item"><a href=""><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </a></li>
+		                  	<li class="list-group-item"><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}}</li>
+		                  	<li class="list-group-item"><b>Cidade: </b>{{pedido.objeto_solicitado.cidade}} - {{pedido.objeto_solicitado.UF}}</li>
 
 
 
@@ -244,7 +241,7 @@
 		                </div>
 		              </div>
             	</div>
-            	 <!-- Modal para detalhe do usuario solicitante-->
+            	 <!-- Modal para detalhe do usuario solicitante (sem email)-->
               <div class="modal fade" id="modalUser{{pedido.usuario_interessado}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
@@ -256,12 +253,13 @@
                     </div>
                     <div class="modal-body">               
                       <p><b>Nome Completo: </b>{{pedido.usuario_interessado.first_name}} {{pedido.usuario_interessado.last_name}}</p>
-                      <p><b>Email: </b>{{pedido.usuario_interessado.email}}</p>
                       <p><b>Último Login: </b>{{pedido.usuario_interessado.last_login}}</p>
+                      <br>
+                      <p>Informações de contato somente são mostradas para solicitações aprovadas.</p>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                      <a href="mailto:{{pedido.usuario_interessado.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
                       
                     </div>
                   </div>
@@ -371,7 +369,7 @@
             	<div class="col-lg-4 col-md-6 mb-4">
 		              <div class="card border-success">
 		              	<div class="card-header bg-success">
-		                  <a class="card-title text-white" href="" data-toggle="modal" data-target="#modalUser{{pedido.usuario_interessado}}"><h6>Solicitante: <b>{{pedido.usuario_interessado}}</b></h6></a>
+		                  <a class="card-title text-white" href="" data-toggle="modal" data-target="#modalUserEmail{{pedido.usuario_interessado}}"><h6>Solicitante: <b>{{pedido.usuario_interessado}}</b></h6></a>
 		                  
 		                </div>
 
@@ -386,27 +384,29 @@
 		                <ul class="list-group list-group-flush">
 		                	<li class="list-group-item"><b>Status: </b><font class="text-success">Aprovado</font> </li>
 		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
-		                  	<li class="list-group-item"><a href=""><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </a></li>
+		                  	<li class="list-group-item"><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}}</li>
+		                  	<li class="list-group-item"><b>Cidade: </b>{{pedido.objeto_solicitado.cidade}} - {{pedido.objeto_solicitado.UF}}</li>
+		                  	<li class="list-group-item" align = "center"><button class="btn btn-success" data-toggle="modal" data-target="#modalUserEmail{{pedido.usuario_interessado}}">Entrar em Contato</button></li>
 
 
 
 		                </ul>
 		                <div class="card-body">
 		                 <center>            
-		                  <a data-toggle="modal" data-target="#modalCancelaD_{{pedido.id}}" class="card-link">
-		                    <button type="button" class="btn btn-danger">Cancelar Doação</button>
-		                  </a>
+		                  
+		                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalCancelaD_{{pedido.id}}">Cancelar Doação</button>
+		                  
 		                 </center>
 		                  
 		                </div>
 		              </div>
             	</div>
-            	<!-- Modal para detalhe do usuario solicitante-->
-              <div class="modal fade" id="modalUser{{pedido.usuario_interessado}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+            	<!-- Modal para detalhe do usuario solicitante com email-->
+              <div class="modal fade" id="modalUserEmail{{pedido.usuario_interessado}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Usuário: </b>{{pedido.usuario_interessado.username}}</center></h5>
+                      <h5 class="modal-title" id="TituloModalCentralizado"><center><b>Dados do Solicitante: </b>{{pedido.usuario_interessado.username}}</center></h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -484,7 +484,8 @@
 		                <ul class="list-group list-group-flush">
 		                	<li class="list-group-item"><b>Status: </b><font class="text-danger">Recusado</font> </li>
 		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
-		                  	<li class="list-group-item"><a href=""><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </a></li>
+		                  	<li class="list-group-item"><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}}</li>
+		                  	<li class="list-group-item"><b>Cidade: </b>{{pedido.objeto_solicitado.cidade}} - {{pedido.objeto_solicitado.UF}}</li>
 
 
 
@@ -497,7 +498,7 @@
 		                </div>
 		              </div>
             	</div>
-            	<!-- Modal para detalhe do usuario solicitante-->
+            	<!-- Modal para detalhe do usuario solicitante sem email-->
               <div class="modal fade" id="modalUser{{pedido.usuario_interessado}}" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
@@ -509,12 +510,14 @@
                     </div>
                     <div class="modal-body">               
                       <p><b>Nome Completo: </b>{{pedido.usuario_interessado.first_name}} {{pedido.usuario_interessado.last_name}}</p>
-                      <p><b>Email: </b>{{pedido.usuario_interessado.email}}</p>
                       <p><b>Último Login: </b>{{pedido.usuario_interessado.last_login}}</p>
+                      <br>
+                      <p>Informações de contato somente são mostradas para solicitações aprovadas.</p>
+
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                      <a href="mailto:{{pedido.usuario_interessado.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      
                       
                     </div>
                   </div>

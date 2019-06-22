@@ -27,6 +27,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/vendor/daterangepicker/daterangepicker.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+    <link href="{% static 'tindoar-font/tindoar-font.css' %}" rel="stylesheet">
  <!-- /Estilo Botão-->
 
 </head>
@@ -36,10 +37,10 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <img src="{% static 'imagens/small.png' %}">
+      <img src="{% static 'imagens/small.png' %}" height="42">
 
 
-      <a class="navbar-brand" href="/home">⠀Tindoar</a>
+      <a class="navbar-brand" href="/home"><font style = "font-family:tinder; font-stretch: extra-expanded; font-size: 24px ">⠀tindoar</font> </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -56,14 +57,7 @@
             <a class="nav-link" href="#">Sobre nós</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#"><b></b></a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link disabled">Logado como <b>{{ user.get_username }}:</b></a>
-          </li>
-
+          
           <li class="nav-item">
             <a class="nav-link" href="/criar_item">Doar</a>
           </li>
@@ -80,16 +74,19 @@
             <a class="nav-link" href="/ver_pedidos">Solicitações</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/minha_conta">Minha Conta</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
-            <form id="logoutform" method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <input type="hidden">
-          </form>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Logado como <b>{{ user.get_username }}</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/minha_conta">Minha Conta</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" onClick="document.getElementById('logoutform').submit()">Sair</a>
+              <form id="logoutform" method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <input type="hidden">
+              </form>
+            </div>
           </li>
         </ul>
       </div>
@@ -124,7 +121,7 @@
         <center>
           <div class="card" ">
             <div class="card-body">
-              <p><img src="{% static 'imagens/pessoas/afonso.png' %}"> <br><br><b>Afonso Celso</b><br>Desenvolvedor<br></p>
+              <p><img src="{% static 'imagens/pessoas/afonso.png' %}"> <br><br><b>Afonso Celso</b><br>Desenvolvedor / Marketing<br></p>
               <br>
               <br>
               <p><img src="{% static 'imagens/pessoas/carlos.png' %}"> <br><br><b>Carlos Santos Jr</b><br>Desenvolvedor - Teste<br></p>
@@ -139,7 +136,7 @@
               <p><img src="{% static 'imagens/pessoas/vitor.png' %}"> <br><br><b>Vitor de Paula Jr</b><br>Scrum Master<br></p>
               <br>
               <br>
-              <p><img src="{% static 'imagens/pessoas/default.png' %}"> <br><br><b>Mário</b><br>Desenvolvedor<br></p>
+              <p><img src="{% static 'imagens/pessoas/mario.png' %}"> <br><br><b>Mário Lucas</b><br>Desenvolvedor / Mídias<br></p>
               <br>
               <br>
               <p><img src="{% static 'imagens/pessoas/mateus.png' %}"> <br><br><b>Mateus Medeiros</b><br>Desenvolvedor - Frontend<br></p>

@@ -12,8 +12,11 @@ class Objeto(models.Model):
     tipo = models.CharField(choices=TIPO_CHOICES,max_length=2, default='OT')
     nome = models.CharField(max_length=100)
     descrição = models.TextField(max_length=500)
+    cidade = models.CharField(max_length=50, default='Não especificada')
+    UF_CHOICES = [('AC', 'Acre'), ('AL', 'Alagoas'), ('AP', 'Amapá'), ('AM', 'Amazonas'), ('BA', 'Bahia'), ('CE', 'Ceará'), ('DF', 'Distrito Federal'), ('ES', 'Espírito Santo'), ('GO', 'Goiás'), ('MA', 'Maranhão'), ('MT', 'Mato Grosso'), ('MS', 'Mato Grosso do Sul'), ('MG', 'Minas Gerais'), ('PA', 'Pará'), ('PB', 'Paraíba'), ('PR', 'Paraná'), ('PE', 'Pernambuco'), ('PI', 'Piauí'), ('RJ', 'Rio de Janeiro'), ('RN', 'Rio Grande do Norte'), ('RS', 'Rio Grande do Sul'), ('RO', 'Rondônia'), ('RR', 'Roraima'), ('SC', 'Santa Catarina'), ('SP', 'São Paulo'), ('SE', 'Sergipe'), ('TO', 'Tocantins'),]
+    UF = models.CharField(choices = UF_CHOICES, max_length=2, default='NA')
     usuario_dono = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    imagem = models.ImageField(upload_to= upload_location, null=True, blank=True, width_field="largura_img", height_field="altura_img")
+    imagem = models.ImageField(upload_to= upload_location, null=True, blank=True, )
     altura_img = models.IntegerField(default=0)
     largura_img = models.IntegerField(default=0)
     def __str__(self):

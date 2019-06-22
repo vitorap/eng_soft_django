@@ -29,6 +29,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+	  <link href="{% static 'tindoar-font/tindoar-font.css' %}" rel="stylesheet">
 <!--===============================================================================================-->
 </head>
 <body>
@@ -40,16 +41,16 @@
 			<div class="wrap-login100">
 				<form method = "post" class="login100-form validate-form">
 					<span class="login100-form-title p-b-26">
-						Bem vindo ao Tindoar
+						Bem vindo ao <font style="font-family:tinder;font-size: 48px">tindoar</font>
 					</span>
 					<center><img src="{% static 'imagens/logo150px.png' %}""></center>
 					<br>
 					<br>
 					{% csrf_token %}
-					(Nome de usuário:)
+					
                     {{ form.username|as_crispy_field}}
 
-                    (Senha:)
+                    
                     {{ form.password|as_crispy_field}}
 
 				                   

@@ -25,6 +25,7 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'loginscreen/css/main.css' %}">
+	  <link href="{% static 'tindoar-font/tindoar-font.css' %}" rel="stylesheet">
 <!--===============================================================================================-->
 	</head>
 	<body>
@@ -32,7 +33,11 @@
 		<center>
 			<form method="POST" class="post-form">
 			{% csrf_token %}
-			{{ form|crispy }}
+			{{ form.nome|as_crispy_field }}
+			{{ form.descrição|as_crispy_field  }}
+			{{ form.cidade|as_crispy_field  }}
+			{{ form.UF|as_crispy_field  }}
+			{{ form.tipo|as_crispy_field  }}
 			<center>
 				<button class="btn btn-success" type="submit">
 								Salvar Edições
