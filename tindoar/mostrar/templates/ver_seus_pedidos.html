@@ -143,7 +143,7 @@
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Logado como <b>{{ user.get_username }}</b>
+              Logado como <b><font color="#ff6060">{{user.get_username }}</font></b>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="/minha_conta">Minha Conta</a>
@@ -332,7 +332,7 @@
 		                	<li class="list-group-item"><b>Id: </b>{{pedido.id}}</li>
 		                  	<li class="list-group-item"><b>Categoria: </b>{{pedido.objeto_solicitado.get_tipo_display}} </li>
                         <li class="list-group-item"><b>Cidade: </b>{{pedido.objeto_solicitado.cidade}} - {{pedido.objeto_solicitado.UF}}</li>
-                        <li class="list-group-item" align = "center"><button class="btn btn-success" data-toggle="modal" data-target="#modalUserEmail{{pedido.usuario_dono}}">Entrar em Contato</button></li>
+                        <li class="list-group-item" align = "center"><button class="btn btn-success" data-toggle="modal" data-target="#modalUserEmail{{pedido.usuario_dono}}">Contatar Doador</button></li>
 
 
 
@@ -359,7 +359,8 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                      <a href="mailto:{{pedido.usuario_interessado.email}}"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
+                      <a href="mailto:{{pedido.usuario_dono.email}}?subject=Tindoar%20-%20 %22{{pedido.objeto_solicitado.nome}}%22 doado!
+                      &body=Olá {{pedido.usuario_dono.first_name}}, me chamo {{pedido.usuario_interessado.first_name}} e estou muito grato por aceitar meu pedido de doação do seu ítem %22{{pedido.objeto_solicitado.nome}}%22, vamos combinar os detalhes para eu buscá-lo?"><button type="button" class="btn btn-primary">Entrar em Contato</button></a>
                       
                     </div>
                   </div>
