@@ -2,6 +2,8 @@
 **Projeto** Tindoar
 **Responsável da Monitora**: André
 
+![Tindoar](https://raw.githubusercontent.com/vitorap/eng_soft_django/master/tindoar/mostrar/static/imagens/logo.png)
+
 ### Como instalar
 1. Instalar o Python 3 - [Veja como aqui](https://pt.wikihow.com/Instalar-o-Python "Veja como aqui")
 1. Instalar o Framework Django - [Veja como aqui](https://docs.djangoproject.com/pt-br/2.2/howto/windows/ "Veja como aqui")
